@@ -1,0 +1,87 @@
+plugins {
+
+    // Проект написанный на языке Java
+    id 'java'
+    // Плагин необходим для репортинга с помощью allure (создания отчетов)
+    id 'io.qameta.allure' version '2.12.0'
+}
+
+// Название проекта и версия
+group 'ru.netology'
+version '1.0-SNAPSHOT'
+
+java {
+
+    // Версия Java - 11
+    sourceCompatibility = 11
+}
+
+// Кодировка файлов (если используете русский язык в файлах)
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+allure {
+
+    // Указываем версию allure которая совместима с JDK 11
+    version = '2.27.0'
+}
+
+repositories {
+
+    // Java библиотеки
+    mavenCentral()
+}
+
+dependencies {
+    // JUnit 5 — фреймворк для написания и запуска тестов
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    // MySQL драйвер — чтобы подключаться к MySQL базе
+    testImplementation 'mysql:mysql-connector-java:8.0.30'
+    // PostgreSQL драйвер — чтобы подключаться к PostgreSQL базе
+    testImplementation "org.postgresql:postgresql:42.7.2"
+    // Commons-DBUtils — упрощает работу с базой данных
+    testImplementation 'commons-dbutils:commons-dbutils:1.7'
+    // Selenide — библиотека автоматизации веб-тестов, позволяет запускать браузеры и проверять функциональность фронтенда.
+    testImplementation 'com.codeborne:selenide:6.19.1'
+    // Полезная библиотека для генерации фиктивных данных в тестах (ФИО, адреса, телефоны и др.).
+    implementation 'com.github.javafaker:javafaker:1.0.2'
+    // Устраняет избыточный код (геттеры/сеттеры, конструкторы) облегчает написание тестов.
+    testImplementation 'org.projectlombok:lombok:1.18.36'
+    // Обеспечивает поддержку аннотаций Lombok на этапе запуска тестов
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.36'
+    // Инструмент логирования, полезен для отслеживания сообщений и диагностики проблем в тестах.
+    // Зависимость необходимая для упрощенного логирования ошибок
+    testImplementation 'org.slf4j:slf4j-simple:1.7.32'
+    testImplementation 'io.rest-assured:rest-assured:5.5.0'
+    // Rest Assured предназначен для тестирования REST API и HTTP запросов
+    testImplementation 'com.google.code.gson:gson:2.10.1'
+    // Gson используется для сериализации и десериализации объектов Java в JSON и обратно
+    testImplementation 'io.qameta.allure:allure-selenide:2.27.0'
+    // Зависимость allure для интеграции с Selenide дает дополнительную полезную информацию
+}
+
+test {
+    useJUnitPlatform()
+    // Когда ты запускаешь тесты командой вроде gradlew test -Dselenide.headless=true, ты передаёшь специальный ключ -Dselenide.headless.
+    // Этот ключ говорит Selenide запустить браузер без графического интерфейса, т.е. "headless mode".
+    // Значение этого ключа (true или false) автоматически считывается системой и передаётся в систему свойств JVM с именем selenide.headless.
+    // Таким образом, если в команде запуска тестов задать -Dselenide.headless=true,
+    // то браузер запустится в режиме без отображения окна (это полезно для CI-серверов и быстрого выполнения тестов).
+    systemProperty 'selenide.headless', System.getProperty('selenide.headless')
+    // Эта строка кода используется в Java-приложениях для задания значения свойства db.url,
+    // которое представляет собой адрес базы данных (например, MySQL).
+    // Название вместо db.url можно указать любое, главное чтобы потом его везде одинаково использовать
+    systemProperty 'db.mysql',
+            System.getProperty('db.mysql', "jdbc:mysql://localhost:3306/app")
+
+    systemProperty 'db.postgres',
+            System.getProperty('db.postgres', "jdbc:postgresql://localhost:5432/app")
+    // Эта строка устанавливает настройки браузера Google Chrome при выполнении тестов.
+    // Отключается автоматическое предложение сохранить пароль (менеджер паролей), поскольку это может повлиять на поведение тестов и вызвать нестабильность.
+    // По умолчанию Selenide читает значение из переменных среды (через System.getProperty()) и если оно отсутствует,
+    // то задаёт своё собственное дефолтное значение "profile.password_manager_leak_detection=false".
+    // То есть, если у тебя вдруг возникнут проблемы с менеджером паролей (Chrome начнёт предлагать сохранять пароль, мешая выполнению тестов),
+    // эта настройка гарантирует, что такое поведение будет заблокировано.
+    systemProperty 'chromeoptions.prefs',
+            System.getProperty('chromeoptions.prefs', "profile.password_manager_leak_detection=false")
+}

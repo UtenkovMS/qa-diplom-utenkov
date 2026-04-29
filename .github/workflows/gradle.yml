@@ -1,0 +1,63 @@
+name: Java CI with Gradle
+
+on: [ push, pull_request ]
+
+jobs:
+  # MySQL
+  test-mysql:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Start MySQL Container
+        uses: hoverkraft-tech/compose-action@v2.0.1
+        with:
+          command: up -d mysql
+
+      - name: Waiting for container start
+        run: sleep 50
+
+      - name: Start SUT for MySQL
+        run: java -jar ./artifacts/aqa-shop.jar --spring.config.location=application.properties &
+
+      - name: Run Tests for MySQL
+        timeout-minutes: 20
+
+        run: ./gradlew test --info -Dselenide.headless=true
+
+  # PostgreSQL
+  test-postgres:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Start PostgreSQL Container
+        uses: hoverkraft-tech/compose-action@v2.0.1
+        with:
+          command: up -d postgres
+
+      - name: Waiting for container start
+        run: sleep 50
+
+      - name: Start SUT for PostgreSQL
+        run: java -jar ./artifacts/aqa-shop.jar --spring.config.location=application-postgres.properties &
+
+      - name: Run Tests for PostgreSQL
+        timeout-minutes: 20
+        run: ./gradlew test --info -Dselenide.headless=true
