@@ -1,7 +1,6 @@
 [![Java CI with Gradle](https://github.com/UtenkovMS/qa-diplom-utenkov/actions/workflows/gradle.yml/badge.svg)](https://github.com/UtenkovMS/qa-diplom-utenkov/actions/workflows/gradle.yml)
 
-## Дипломный проект по профессии «Тестировщик ПО»
-***
+# Дипломный проект по профессии «Тестировщик ПО»
 ## Группа QA-122. Подготовил: Утенков Максим Сергеевич
 ***
 
