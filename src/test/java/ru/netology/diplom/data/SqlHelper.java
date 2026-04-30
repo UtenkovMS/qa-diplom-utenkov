@@ -29,7 +29,7 @@ public class SqlHelper {
         //`DriverManager.getConnection()` — это метод Java для получения соединения с базой данных.
         // Данный метод устанавливает соединение с указанной базой данных.
         // Параметр db.url - задается в bild.gradle
-        return DriverManager.getConnection(System.getProperty("db.mysql"), "app", "pass");
+        return DriverManager.getConnection(System.getProperty("db.url"), "app", "pass");
     }
 
     // Аннотация @SneakyThrows используется для подавления сообщений об исключениях
