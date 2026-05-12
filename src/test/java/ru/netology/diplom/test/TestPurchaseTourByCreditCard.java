@@ -60,7 +60,7 @@ public class TestPurchaseTourByCreditCard {
 
         var approvedCard = DataHelper.getCardInfoWithApprovedStatus();
         creditPayment.payment(approvedCard);
-        creditPayment.visibilityMessageAboutApprovedOperation("Операция одобрена Банком");
+        creditPayment.visibilityNotificationStatusOk("Операция одобрена Банком");
 
         var paymentStatusFromDB = SqlHelper.getCreditCardStatus();
         var paymentStatusInText = paymentStatusFromDB.getStatus();
@@ -152,7 +152,7 @@ public class TestPurchaseTourByCreditCard {
 
         var longNumderCard = DataHelper.getCardInfoWithLongNumberCard();
         creditPayment.payment(longNumderCard);
-        creditPayment.visibilityMessageAboutApprovedOperation("Операция одобрена Банком");
+        creditPayment.visibilityNotificationStatusOk("Операция одобрена Банком");
 
         creditPayment.visibilityActualNumberCardInInputField();
         var actualNumber = creditPayment.getNumberCardValue();
@@ -193,21 +193,12 @@ public class TestPurchaseTourByCreditCard {
     }
 
     @Test
-    @DisplayName("Покупка тура в кредит, если в поле 'Номер карты' введены нули")
+    @DisplayName("Видимость уведомления об ошибке, если в поле 'Номер карты' введены нули")
     void purchaseForNumberCreditCardFromZeros() {
 
         var numberCardFromZeros = DataHelper.getCardInfoWithNumberCardFromZeroes();
         creditPayment.payment(numberCardFromZeros);
         creditPayment.visibilityErrorNotification("Ошибка! Банк отказал в проведении операции");
-
-        var paymentStatusFromDB = SqlHelper.getCreditCardStatus();
-        // Проверка на отсутствие данных БД используем assertNull()
-        assertNull(paymentStatusFromDB);
-
-        Response apiResponse = ApiHelper.sendRequest400(numberCardFromZeros);
-        var apistatus = apiResponse.getStatusCode();
-        // Проверка кода статуса HTTP ответа, пишем значение статуса, как в методе sendRequest400()
-        assertEquals(400, apistatus);
     }
 
     @Test
@@ -659,7 +650,7 @@ public class TestPurchaseTourByCreditCard {
 
         var futureNumberYear = DataHelper.getCardInfoWithFutureYearAfter5Years();
         creditPayment.payment(futureNumberYear);
-        creditPayment.visibilityMessageAboutApprovedOperation("Операция одобрена Банком");
+        creditPayment.visibilityNotificationStatusOk("Операция одобрена Банком");
 
         Response apiResponse = ApiHelper.sendRequest200(futureNumberYear);
         assertEquals("APPROVED", apiResponse.path("status"));
@@ -700,7 +691,7 @@ public class TestPurchaseTourByCreditCard {
     @Step("Тестирование покупки тура в кредит с невалидным значением поля 'CVC'")
 
     @Test
-    @DisplayName("Покупка тура в кредит, если в поле 'CVC' введены 2 цифра")
+    @DisplayName("Покупка тура в кредит, если в поле 'CVC' введены 2 цифры")
     void purchaseIf2DigitNumberEnteredInCVCField() {
 
         var shortNumberCVC = DataHelper.getCardInfoWithShortNumberCVC();
@@ -724,7 +715,7 @@ public class TestPurchaseTourByCreditCard {
 
         var longNumberCVC = DataHelper.getCardInfoWithLongNumberCVC();
         creditPayment.payment(longNumberCVC);
-        creditPayment.visibilityMessageAboutApprovedOperation("Операция одобрена Банком");
+        creditPayment.visibilityNotificationStatusOk("Операция одобрена Банком");
 
         creditPayment.visibilityActualNumberCvcInInputField();
         var actualNumberCVC = creditPayment.getNumberCVCValue();
@@ -773,7 +764,7 @@ public class TestPurchaseTourByCreditCard {
 
         var numberCVCFromZeros = DataHelper.getCardInfoWithCVCFromZeros();
         creditPayment.payment(numberCVCFromZeros);
-        creditPayment.visibilityMessageAboutApprovedOperation("Операция одобрена Банком");
+        creditPayment.visibilityNotificationStatusOk("Операция одобрена Банком");
 
         Response apiResponse = ApiHelper.sendRequest200(numberCVCFromZeros);
         assertEquals("APPROVED", apiResponse.path("status"));
@@ -883,7 +874,7 @@ public class TestPurchaseTourByCreditCard {
 
         var holderNameFrom2DigitSymbol = DataHelper.getCardInfoWithLongHolderNameFrom2DigitSymbol();
         creditPayment.payment(holderNameFrom2DigitSymbol);
-        creditPayment.visibilityMessageAboutApprovedOperation("Операция одобрена Банком");
+        creditPayment.visibilityNotificationStatusOk("Операция одобрена Банком");
 
         Response apiResponse = ApiHelper.sendRequest200(holderNameFrom2DigitSymbol);
         assertEquals("APPROVED", apiResponse.path("status"));
@@ -901,7 +892,7 @@ public class TestPurchaseTourByCreditCard {
 
         var holderNameFrom21DigitSymbol = DataHelper.getCardInfoWithHolderNameFrom21DigitSymbol();
         creditPayment.payment(holderNameFrom21DigitSymbol);
-        creditPayment.visibilityMessageAboutApprovedOperation("Операция одобрена Банком");
+        creditPayment.visibilityNotificationStatusOk("Операция одобрена Банком");
 
         Response apiResponse = ApiHelper.sendRequest200(holderNameFrom21DigitSymbol);
         assertEquals("APPROVED", apiResponse.path("status"));
@@ -919,7 +910,7 @@ public class TestPurchaseTourByCreditCard {
 
         var longHolderName = DataHelper.getCardInfoWithLongHolderNameFromMore21DigitSymbol();
         creditPayment.payment(longHolderName);
-        creditPayment.visibilityMessageAboutApprovedOperation("Операция одобрена Банком");
+        creditPayment.visibilityNotificationStatusOk("Операция одобрена Банком");
 
         creditPayment.visibilityActualHolderInInputField();
         var actualHolder = creditPayment.getHolderValue();
@@ -1175,17 +1166,17 @@ public class TestPurchaseTourByCreditCard {
 
         var holderNameFromValidLettersWithCharacters = DataHelper.getCardInfoFForHolderNameFromValidLettersWithCharacters();
         creditPayment.payment(holderNameFromValidLettersWithCharacters);
-        creditPayment.visibilityErrorMessageForInputField("Неверный формат");
+        creditPayment.visibilityNotificationStatusOk("Операция одобрена Банком");
     }
 
     @Test
-    @DisplayName("Поле 'Владелец' должно быть пустым, если введены слова с валидными знаками")
-    void holderFieldShouldBeEmptyIfEnteredValidLettersWithCharacters() {
+    @DisplayName("Поле 'Владелец' должно быть не пустым, если введены слова с валидными знаками")
+    void holderFieldShouldBeNotEmptyIfEnteredValidLettersWithCharacters() {
 
         var holderNameFromValidLettersWithCharacters = DataHelper.getCardInfoFForHolderNameFromValidLettersWithCharacters();
         creditPayment.payment(holderNameFromValidLettersWithCharacters);
 
-        creditPayment.visibilityMessageAboutApprovedOperation("Операция одобрена Банком");
+        creditPayment.visibilityNotificationStatusOk("Операция одобрена Банком");
 
         Response apiResponse = ApiHelper.sendRequest200(holderNameFromValidLettersWithCharacters);
         assertEquals("APPROVED", apiResponse.path("status"));

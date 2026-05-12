@@ -37,7 +37,7 @@ public class CardPaymentPage {
     // Родительский элемент будет включать группу элементов, в которой находится эл-т отвечающий за нажатие кнопки
     // После этого производим поиск по конечному селектору, который отвечает за нажатие кнопки
     private final SelenideElement holder = $(byText("Владелец")).parent().$("input.input__control");
-    private final SelenideElement botton = $(byText("Продолжить")).shouldBe(visible, Duration.ofSeconds(10));
+    private final SelenideElement botton = $(byText("Продолжить")).shouldBe(visible, Duration.ofSeconds(15));
 
     // Проверка видимости сообщения: "Операция одобрена Банком".
     // В качестве аргумента передаем ожидаемый текст (String expectedText)

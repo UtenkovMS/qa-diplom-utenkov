@@ -227,7 +227,7 @@ public class DataHelper {
 
     public static CardInfo getCardInfoWithLongHolderNameFromMore21DigitSymbol() {
 
-        return new CardInfo("4444 4444 4444 4441", currentMonth, currentYear, "Sergey Petrovich Lykov", cvc);
+        return new CardInfo("4444 4444 4444 4441", currentMonth, currentYear, "Sergey-Petrovich Lykov", cvc);
     }
 
     public static CardInfo getCardInfoForHolderNameFromNumbers() {
@@ -242,7 +242,7 @@ public class DataHelper {
 
     public static CardInfo getCardInfoForHolderNameIfEnteredLettersOnRussianLanguage() {
 
-        return new CardInfo("4444 4444 4444 4441", currentMonth, currentYear, "Владимир Петров", cvc);
+        return new CardInfo("4444 4444 4444 4441", currentMonth, currentYear, "Владимир-Петров", cvc);
     }
 
     public static CardInfo getCardInfoForHolderNameFromLettersOnGeorgiaLanguage() {

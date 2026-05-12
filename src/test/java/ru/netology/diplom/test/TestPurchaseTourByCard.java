@@ -516,7 +516,7 @@ public class TestPurchaseTourByCard {
     }
 
     @Test
-    @DisplayName("Покупка тура, если в поле 'Год' введено 4 цифры")
+    @DisplayName("Покупка тура, если в поле 'Год' введены 4 цифры")
     void purchaseIf3DigitNumberEnteredInYearField() {
 
         var longNumberYear = DataHelper.getCardInfoWithLongNumberYear();
@@ -928,7 +928,7 @@ public class TestPurchaseTourByCard {
     }
 
     @Test
-    @DisplayName("поле 'Владелец' должно быть пустым, если введены цифры")
+    @DisplayName("Поле 'Владелец' должно быть пустым, если введены цифры")
     void holderFieldShouldBeEmptyIfNumberEntered() {
 
         var holderNameFromNumbers = DataHelper.getCardInfoForHolderNameFromNumbers();
@@ -982,7 +982,7 @@ public class TestPurchaseTourByCard {
     }
 
     @Test
-    @DisplayName("поле 'Владелец' должно быть пустым, если введены слова на русском языке")
+    @DisplayName("Поле 'Владелец' должно быть пустым, если введены слова на русском языке")
     void holderFieldShouldBeEmptyIfEnteredOnRussianLanguage() {
 
         var holderNameOnRussianLanguage = DataHelper.getCardInfoForHolderNameIfEnteredLettersOnRussianLanguage();
@@ -1052,7 +1052,7 @@ public class TestPurchaseTourByCard {
     }
 
     @Test
-    @DisplayName("поле 'Владелец' должно быть пустым, если введены слова с цифрами")
+    @DisplayName("Поле 'Владелец' должно быть пустым, если введены слова с цифрами")
     void holderFieldShouldBeEmptyIfEnteredLettersWithNumbers() {
 
         var holderNameFromLettersWithNumbers = DataHelper.getCardInfoForHolderNameFromLettersWithNumbers();
@@ -1087,7 +1087,7 @@ public class TestPurchaseTourByCard {
     }
 
     @Test
-    @DisplayName("поле 'Владелец' должно быть пустым, если введены знаки")
+    @DisplayName("Поле 'Владелец' должно быть пустым, если введены знаки")
     void holderFieldShouldBeEmptyIfEnteredCharacters() {
 
         var holderNameFromCharacters = DataHelper.getCardInfoForHolderNameFromCharacters();
@@ -1122,7 +1122,7 @@ public class TestPurchaseTourByCard {
     }
 
     @Test
-    @DisplayName("поле 'Владелец' должно быть пустым, если введены слова с невалидными знаками")
+    @DisplayName("Поле 'Владелец' должно быть пустым, если введены слова с невалидными знаками")
     void holderFieldShouldBeEmptyIfEnteredInvalidLettersWithCharacters() {
 
         var holderNameFromCInvalidLettersWithCharacters = DataHelper.getCardInfoForHolderNameFromInvalidLettersWithCharacters();
@@ -1153,12 +1153,12 @@ public class TestPurchaseTourByCard {
 
         var holderNameFromValidLettersWithCharacters = DataHelper.getCardInfoFForHolderNameFromValidLettersWithCharacters();
         cardPayment.payment(holderNameFromValidLettersWithCharacters);
-        cardPayment.visibilityErrorMessageForInputField("Неверный формат");
+        cardPayment.visibilityNotificationStatusOk("Операция одобрена Банком");
     }
 
     @Test
-    @DisplayName("Поле 'Владелец' должно быть пустым, если введены слова с валидными знаками")
-    void holderFieldShouldBeEmptyIfEnteredValidLettersWithCharacters() {
+    @DisplayName("Поле 'Владелец' не должно быть пустым, если введены слова с валидными знаками")
+    void holderFieldShouldBeNotEmptyIfEnteredValidLettersWithCharacters() {
 
         var holderNameFromValidLettersWithCharacters = DataHelper.getCardInfoFForHolderNameFromValidLettersWithCharacters();
         cardPayment.payment(holderNameFromValidLettersWithCharacters);

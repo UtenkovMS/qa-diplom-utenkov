@@ -40,7 +40,7 @@ public class CreditPaymentPage {
 
     // Проверка видимости сообщения: "Операция одобрена Банком".
     // В качестве аргумента передаем ожидаемый текст (String expectedText)
-    public void visibilityMessageAboutApprovedOperation(String expectedText) {
+    public void visibilityNotificationStatusOk(String expectedText) {
 
         notificationStatusOk.shouldBe(Condition.visible, Duration.ofSeconds(10)).shouldHave(Condition.text(expectedText));
     }
