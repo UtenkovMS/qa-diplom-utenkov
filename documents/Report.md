@@ -12,7 +12,8 @@
 
 Согласно отчета Allure 40 тестов или 24,5% пройдены успешно, 123 тестов или 75,53% завершились с ошибкой.
 
-<img width="553" height="564" alt="img" src="https://github.com/user-attachments/assets/21e93bce-a3af-4b72-a01b-74f267f57f3a" />
+<img width="1072" height="568" alt="2026-05-12_05-20-49" src="https://github.com/user-attachments/assets/c67f86fb-b32f-4374-8c11-dd9ac801b303" />
+
 
 ***
 
